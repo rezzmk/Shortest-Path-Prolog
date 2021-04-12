@@ -21,18 +21,20 @@ connected(X, Y, C) :- edge(X, Y, C) , not(edge(Y, X, C)). %! X --> Y && Y -/-> X
 
 path(X, Y, P, C) :- 
     walk(X, Y, [X], Q, C),
-    reverse(Q, P).
+    % reverse(Q, P) is true when the elements of P are in reverse order compared to Q
+    reverse(Q, P). 
 
 walk(X, Y, P, [Y | P], C) :- connected(X, Y, C).
 walk(X, Y, V, P, C) :-
     connected(X, Z, C1),
-    C \== Y,
-    \+ member(Z, V),
+    Z \== Y,                    
+    \+ member(Z, V),            % member(Z, V) is true if Z is a member of V)
     walk(Z, Y, [Z | V], P, C2),
-    C is C1 + C2.
+    C is C1 + C2.               % sum the weights
 
+/* Find all available paths, sort them by cost */
 shortest_path(A, B, P, C) :-
-    findall([P, C], path(A, B, P, C), Paths), %! Find all paths, store it into Paths
+    findall([P, C], path(A, B, P, C), Paths),
     sort(Paths, Sorted),
     Sorted = [[P, C] | _].
 
