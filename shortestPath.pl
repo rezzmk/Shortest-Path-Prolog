@@ -1,9 +1,8 @@
 /** 
  * Marcos Caramalho
  *
- * Towers of Hanoi
- * https://en.wikipedia.org/wiki/Tower_of_Hanoi
- */
+ * Shortest path
+*/
 
 /* Facts for the attached example_graph.png weighted directed graph */
 edge((0,0),(0,1),1).
@@ -28,9 +27,9 @@ walk(X, Y, P, [Y | P], C) :- connected(X, Y, C).
 walk(X, Y, V, P, C) :-
     connected(X, Z, C1),
     Z \== Y,                    
-    \+ member(Z, V),            % member(Z, V) is true if Z is a member of V)
+    \+ member(Z, V),            % member(Z, V) is true if Z is a member of V
     walk(Z, Y, [Z | V], P, C2),
-    C is C1 + C2.               % sum the weights
+    C is C1 + C2.               % sum the costs
 
 /* Find all available paths, sort them by cost */
 shortest_path(A, B, P, C) :-
@@ -48,3 +47,4 @@ shortest_path(A, B, P, C) :-
  *   P = [X | P1],
  *   C is C1 + C2.
  */
+
